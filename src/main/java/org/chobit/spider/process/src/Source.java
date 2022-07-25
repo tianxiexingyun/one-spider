@@ -1,6 +1,7 @@
 package org.chobit.spider.process.src;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +33,9 @@ public interface Source {
      *
      * @return 编码类型
      */
-    Charset charset();
+    default Charset charset() {
+        return StandardCharsets.UTF_8;
+    }
 
 
     /**

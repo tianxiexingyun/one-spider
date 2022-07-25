@@ -3,7 +3,6 @@ package org.chobit.spider.process.transform;
 import org.chobit.common.utils.Collections2;
 import org.chobit.spider.bean.Anchor;
 import org.chobit.spider.bean.PostContent;
-import org.chobit.spider.except.InvalidUrlException;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -11,9 +10,9 @@ import org.jsoup.select.Elements;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.chobit.common.constants.Symbol.SLASH;
 import static org.chobit.common.utils.StrKit.isBlank;
 import static org.chobit.spider.constants.Constants.*;
+import static org.chobit.spider.tools.UrlHelper.buildUrl;
 
 /**
  * @author robin
@@ -85,28 +84,6 @@ public abstract class AbstractTransformer implements Transformer {
     }
 
 
-    /**
-     * 拼接请求路径
-     *
-     * @param href 请求路径
-     * @return 请求路径
-     */
-    private String buildUrl(String href, String baseUrl) {
-        if (href.startsWith(FLAG_HTTP) || href.startsWith(FLAG_HTTPS)) {
-            return href;
-        }
-        if (isBlank(baseUrl)) {
-            throw new InvalidUrlException(href);
-        }
-
-        if (href.startsWith(SLASH) && baseUrl.endsWith(SLASH)) {
-            return baseUrl + href.substring(1);
-        } else if (!href.startsWith(SLASH) && !baseUrl.endsWith(SLASH)) {
-            return baseUrl + SLASH + href;
-        } else {
-            return baseUrl + href;
-        }
-    }
 
 
 }

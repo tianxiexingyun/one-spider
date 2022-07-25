@@ -1,5 +1,6 @@
 package org.chobit.spider.process;
 
+import org.apache.http.HttpHost;
 import org.chobit.common.http.HttpClient;
 import org.chobit.spider.bean.Anchor;
 import org.chobit.spider.bean.PostContent;
@@ -12,6 +13,9 @@ import org.jsoup.nodes.Document;
 import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.chobit.common.utils.StrKit.isNotBlank;
+import static org.chobit.spider.Config.proxy;
 
 /**
  * @author robin
@@ -36,7 +40,10 @@ public class SpiderProcessor {
     public void process() {
         Charset charset = source.charset();
 
-        Document docIndex = getDoc(source.indexUrl(), charset);
+        Document docIndex = null;
+        if (isNotBlank(source.indexUrl())) {
+            docIndex = getDoc(source.indexUrl(), charset);
+        }
         List<Anchor> anchors = transformer.postAnchors(docIndex, source.baseUrl());
 
         List<PostContent> contents = new LinkedList<>();
@@ -65,8 +72,13 @@ public class SpiderProcessor {
         return false;
     }
 
+
     private Document getDoc(String url, Charset charset) {
-        byte[] bytes = HttpClient.getForBytes(url);
+        HttpHost proxy = null;
+        if (source.useProxy()) {
+            proxy = proxy();
+        }
+        byte[] bytes = HttpClient.getForBytes(url, proxy);
         return Jsoup.parse(new String(bytes, charset));
     }
 }

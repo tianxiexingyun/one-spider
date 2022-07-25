@@ -15,11 +15,13 @@ public final class Constants {
     public static final String FLAG_HTTPS = "https://";
 
 
+    public static final String FLAG_IMG = "IMG";
+
+
     public static final String SELECTOR_PARAGRAPH = "p";
 
 
     public static final String REPLACER_BR = "#AZ@";
-
 
 
     private Constants() {

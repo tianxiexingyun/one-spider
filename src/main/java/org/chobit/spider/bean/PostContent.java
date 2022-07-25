@@ -3,6 +3,8 @@ package org.chobit.spider.bean;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.chobit.common.constants.Symbol.EMPTY;
+
 /**
  * @author robin
  */
@@ -44,6 +46,14 @@ public class PostContent {
 
     public void addLine(String line) {
         this.lines.add(line);
+    }
+
+
+    public String firstLine() {
+        if (lines.isEmpty()) {
+            return EMPTY;
+        }
+        return lines.get(0);
     }
 
     public String getTitle() {

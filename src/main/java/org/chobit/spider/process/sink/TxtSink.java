@@ -22,7 +22,7 @@ public class TxtSink implements Sink {
     private static final Logger logger = LoggerFactory.getLogger(TxtSink.class);
 
 
-    private String path;
+    private final String path;
 
 
     public TxtSink(String path) {
