@@ -16,7 +16,7 @@ public class EpubTxtTransformer extends AbstractEpubTransformer {
 
     @Override
     public String postTitleSelector() {
-        return "body > div > h3";
+        return "";
     }
 
     @Override

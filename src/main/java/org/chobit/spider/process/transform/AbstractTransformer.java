@@ -6,6 +6,8 @@ import org.chobit.spider.bean.PostContent;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +20,9 @@ import static org.chobit.spider.tools.UrlHelper.buildUrl;
  * @author robin
  */
 public abstract class AbstractTransformer implements Transformer {
+
+
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     @Override
@@ -41,9 +46,9 @@ public abstract class AbstractTransformer implements Transformer {
 
     @Override
     public PostContent extract(Document docPost, String bakTitle, String parent) {
-        Element eleTitle = docPost.selectFirst(postTitleSelector());
+        Element eleTitle = isBlank(postTitleSelector()) ? null : docPost.selectFirst(postTitleSelector());
         Element eleContent = docPost.selectFirst(postContentSelector());
-        String title = null == eleTitle ? (null == bakTitle ? "" : bakTitle) : eleTitle.text();
+        String title = (null == eleTitle ? (null == bakTitle ? "" : bakTitle) : eleTitle.text());
 
         PostContent content = new PostContent(title);
         content.setContentHtml(null == eleContent ? "" : eleContent.html());
@@ -59,7 +64,7 @@ public abstract class AbstractTransformer implements Transformer {
             content.addLine(ele.text().trim());
         }
 
-        if(content.getLines().isEmpty()){
+        if (content.getLines().isEmpty()) {
             extract0(content, eleContent);
         }
 
@@ -82,8 +87,6 @@ public abstract class AbstractTransformer implements Transformer {
             content.addLine(s.trim());
         }
     }
-
-
 
 
 }

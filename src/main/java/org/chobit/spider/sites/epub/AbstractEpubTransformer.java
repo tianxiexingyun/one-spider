@@ -2,12 +2,14 @@ package org.chobit.spider.sites.epub;
 
 import org.chobit.spider.bean.Anchor;
 import org.chobit.spider.process.transform.AbstractTransformer;
+import org.dom4j.Node;
 import org.jsoup.nodes.Document;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.chobit.spider.tools.UrlHelper.buildUrl;
+import static org.chobit.spider.tools.XmlHelper.readXml;
 
 /**
  * @author robin
@@ -24,12 +26,22 @@ public abstract class AbstractEpubTransformer extends AbstractTransformer {
 
     @Override
     public List<Anchor> postAnchors(Document doc, String baseUrl) {
+        String urlToc = "/toc.ncx";
+        urlToc = buildUrl(urlToc, baseUrl);
+
         List<Anchor> anchors = new LinkedList<>();
-        for (int i = 1; i <= total; i++) {
-            String href = "OPS/chapter" + i + ".html";
+        org.dom4j.Document docToc = readXml(urlToc);
+        if (null == docToc) {
+            logger.error("read toc.ncx failed.");
+            return anchors;
+        }
+
+        List<Node> nodes = docToc.selectNodes("//navPoint");
+        for (Node node : nodes) {
+            String href = node.selectSingleNode("content").valueOf("@src");
+            String title = node.selectSingleNode("navLabel/text").getText();
             String url = buildUrl(href, baseUrl);
-            Anchor anchor = new Anchor(String.valueOf(i), url);
-            anchors.add(anchor);
+            anchors.add(new Anchor(title, url));
         }
         return anchors;
     }
