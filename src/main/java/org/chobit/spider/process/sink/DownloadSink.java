@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.util.List;
 
 import static org.chobit.common.http.HttpClient.getForBytes;
-import static org.chobit.spider.Config.proxy;
 
 /**
  * @author robin
@@ -34,7 +33,7 @@ public class DownloadSink implements Sink {
         String path = localFolder + content.getTitle();
         String url = content.firstLine();
         try (FileOutputStream writer = new FileOutputStream(path)) {
-            byte[] bytes = getForBytes(url, proxy());
+            byte[] bytes = getForBytes(url);
             writer.write(bytes);
         } catch (Exception e) {
             logger.error("Save file error.", e);

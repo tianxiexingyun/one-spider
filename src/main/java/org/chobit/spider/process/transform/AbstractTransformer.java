@@ -72,7 +72,7 @@ public abstract class AbstractTransformer implements Transformer {
     }
 
 
-    protected void extract0(PostContent content, Element ele) {
+    private void extract0(PostContent content, Element ele) {
         ele.select("ul").before(REPLACER_BR).after(REPLACER_BR);
         ele.select("ol").before(REPLACER_BR).after(REPLACER_BR);
         ele.select("li").before(REPLACER_BR).after(REPLACER_BR);

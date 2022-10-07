@@ -5,8 +5,8 @@ package org.chobit.spider.sites.epub;
  */
 public class EpubTxtTransformer extends AbstractEpubTransformer {
 
-    public EpubTxtTransformer(int total) {
-        super(total);
+    public EpubTxtTransformer(int total, String indexPath) {
+        super(total, indexPath);
     }
 
     @Override

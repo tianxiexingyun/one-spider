@@ -19,15 +19,17 @@ public abstract class AbstractEpubTransformer extends AbstractTransformer {
 
     private final int total;
 
-    public AbstractEpubTransformer(int total) {
+    private final String indexPath;
+
+    public AbstractEpubTransformer(int total, String indexPath) {
         this.total = total;
+        this.indexPath = indexPath;
     }
 
 
     @Override
     public List<Anchor> postAnchors(Document doc, String baseUrl) {
-        String urlToc = "/toc.ncx";
-        urlToc = buildUrl(urlToc, baseUrl);
+        String urlToc = buildUrl(this.indexPath, baseUrl);
 
         List<Anchor> anchors = new LinkedList<>();
         org.dom4j.Document docToc = readXml(urlToc);

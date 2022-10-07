@@ -15,9 +15,10 @@ public class EpubTxtTest {
     public void process() {
         String baseUrl = "http://localhost:82/";
         String localPath = "/zhy/roar-woman.txt";
+        String indexPath = "/toc.ncx";
 
         EpubSource source = new EpubSource(baseUrl);
-        EpubTxtTransformer transformer = new EpubTxtTransformer(21);
+        EpubTxtTransformer transformer = new EpubTxtTransformer(21, indexPath);
         TxtSink sink = new TxtSink(localPath);
 
         SpiderProcessor processor = new SpiderProcessor(source, transformer, sink);
